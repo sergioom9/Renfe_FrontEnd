@@ -66,7 +66,7 @@ export default function ScrollVideoAnimation() {
       try {
         const headers = new Headers();
         const response = await fetch(
-          "https://backend-renfe-gzndx3pdbzpw.sergioom9.deno.net//news",
+          "https://backend-renfe-gzndx3pdbzpw.sergioom9.deno.net/news",
           { headers },
         );
         if (!response.ok) {
