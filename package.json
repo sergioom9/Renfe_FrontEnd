@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "esbuild": "^0.25.11",
+    "picomatch": "^4.0.3",
+    "rollup": "^4.52.5"
+  }
+}

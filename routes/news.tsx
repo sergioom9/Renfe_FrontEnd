@@ -1,5 +1,5 @@
-import ScrollAnimation from "../islands/ScrollAnimation.tsx";
+import NewsPage from "../islands/News.tsx";
    
    export default function Home() {
-     return <ScrollAnimation />;
+     return <NewsPage />;
    }

@@ -1,7 +1,7 @@
 const Index = () => {
   return (
     <div class="maincontent">
-      <div class="liquid-glass">
+      <div class="liquid-glass2">
         <h1>Bienvenidos a TrenFe</h1>
         <p>Somos tu plataforma moderna para viajar en tren de manera rápida, segura
         y cómoda. En <strong>TrenFe</strong>{" "}

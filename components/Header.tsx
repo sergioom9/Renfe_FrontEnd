@@ -1,17 +1,24 @@
 const Header = () => {
-    return(
-        <>
-        <header>
-            <div class="liquid-glass">
-                <div class="button-group">
-                    <button class="headerbutton">Menu</button>
-                    <button class="headerbutton">News</button>
-                    <button class="headerbutton">Login</button>
-                    <button class="headerbutton">Register</button>
-                </div>
-                </div>
-            </header>
-        </>
-    )
-}
+  return (
+    <header>
+      <div className="liquid-glass">
+        <div className="button-group">
+          <a href="/" className="headerbutton">
+            Menu
+          </a>
+          <a href="/news" className="headerbutton">
+            News
+          </a>
+          <a href="/login" className="headerbutton">
+            Login
+          </a>
+          <a href="/register" className="headerbutton">
+            Register
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+};
+
 export default Header;
