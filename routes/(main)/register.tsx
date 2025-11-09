@@ -1,4 +1,4 @@
-import RegisterIsland from "../islands/Register.tsx";
+import RegisterIsland from "../../islands/Register.tsx";
 
 const Register = () => {
     return(

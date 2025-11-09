@@ -1,4 +1,4 @@
-import LoginIsland from "../islands/Login.tsx";
+import LoginIsland from "../../islands/Login.tsx";
 
 const Login = () => {
     return(

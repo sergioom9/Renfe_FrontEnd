@@ -23,13 +23,39 @@ const LoginPage=()=> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     });
-
-    const data = await res.json();
     if (res.ok) {
       setMsg({message:"✅ Login correcto",visible:true});
       alertVisible.value = true;
+      const bearer = document.cookie
+        .split("; ")
+        .find((c) => c.startsWith("bearer="))
+        ?.split("=")[1];
+      if (!bearer) {
+        setMsg({ message: "❌ No valid token found", visible: true });
+        alertVisible.value = true;
+        return;
+      }
+      const verifyRes = await fetch("/api/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bearer, email }),
+      });
+      if (verifyRes.ok) {
+        const verified = await verifyRes.json();
+        if (verified.success === "OK") {
+          const token = String(verified.bearer ?? "");
+          document.cookie = `bearer=${encodeURIComponent(token)}; Path=/; Max-Age=${3600}; SameSite=Lax${
+            location.protocol === "https:" ? "; Secure" : ""
+          }`;
+          globalThis.location.replace("/profile");
+          return;
+        }
+        } else {
+          setMsg({ message: "❌ Invalid Token", visible: true });
+          alertVisible.value = true;
+        }
     } else {
-      setMsg({message:`❌ ${data.error}`, visible:true});
+      setMsg({ message: "❌ Login Incorrecto", visible: true });
       alertVisible.value = true;
     }
 }

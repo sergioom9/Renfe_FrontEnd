@@ -1,11 +1,11 @@
 import { PageProps } from "fresh";
-import Header from "../components/Header.tsx";
+import HeaderIsland from "../islands/HeaderIsland.tsx";
 import Footer from "../components/Footer.tsx";
 
 const Layout = ({ Component }: PageProps) => {
     return (
         <>
-            <Header />
+            <HeaderIsland />
             <main>
             <Component />
             </main>

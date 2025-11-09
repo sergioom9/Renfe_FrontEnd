@@ -23,12 +23,38 @@ const RegisterPage = ()=> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     });
-    const data = await res.json();
     if (res.ok) {
       setMsg({message:"✅ Registro correcto",visible:true});
       alertVisible2.value = true;
+      const bearer = document.cookie
+              .split("; ")
+              .find((c) => c.startsWith("bearer="))
+              ?.split("=")[1];
+            if (!bearer) {
+              setMsg({ message: "❌ No valid token found", visible: true });
+              alertVisible2.value = true;
+              return;
+            }
+        const verifyRes = await fetch("/api/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bearer, email }),
+      });
+      if (verifyRes.ok) {
+              const verified = await verifyRes.json();
+              if (verified.success == "OK") {
+                document.cookie = `bearer=${encodeURIComponent(verified.sessionToken)}; path=/; max-age=${3600}`;
+                globalThis.location.href = "/profile";
+              } else {
+                setMsg({ message: "❌ Invalid Token", visible: true });
+                alertVisible2.value = true;
+              }
+            } else {
+              setMsg({ message: "❌ Error Servidor", visible: true });
+              alertVisible2.value = true;
+            }
     } else {
-      setMsg({message:`❌ ${data.error}`, visible:true});
+      setMsg({message:`❌ Registro incorrecto`, visible:true});
       alertVisible2.value = true;
     }
   }
