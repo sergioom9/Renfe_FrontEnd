@@ -26,9 +26,9 @@ const NewsCard = ({ item }: NewsProps) => {
     >
       <img src={item.image} alt={item.title} className={styles.newsImage} />
       <div>
-        <h2 className={styles.sectionTitle}>{item.title}</h2>
+        <h2 className={styles.sectionTitle}>📰 {item.title}</h2>
         <p className={styles.sectionText}>{item.content}</p>
-        <p>{item.date}</p>
+        <p>📅 {item.date}</p>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ const Footer = () => {
     <>
       <footer>
         <div class="liquid-glass">
-        <p> &#169;{new Date().getFullYear()} TRENFE. Created by Sergio Martin. Development</p>
+        <p> &#169;{new Date().getFullYear()} TRENFE. Desarollado por Sergio Martin. Demo</p>
         </div>
       </footer>
     </>

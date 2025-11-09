@@ -6,14 +6,17 @@ const Header = () => {
           <a href="/" className="headerbutton">
             Menu
           </a>
+          <a href="/tickets" className="headerbutton">
+            Billetes
+          </a>
           <a href="/news" className="headerbutton">
-            News
+            Noticias
           </a>
           <a href="/login" className="headerbutton">
-            Login
+            Inicio Sesion
           </a>
           <a href="/register" className="headerbutton">
-            Register
+            Registro
           </a>
         </div>
       </div>

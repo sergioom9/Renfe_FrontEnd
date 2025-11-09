@@ -1,4 +1,8 @@
 {
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "jose": "5.9.6"
+  },
   "devDependencies": {
     "esbuild": "^0.25.11",
     "picomatch": "^4.0.3",

@@ -1,11 +1,10 @@
-import { alertVisible } from "../signals.ts";
 import { alertVisible2 } from "../signals.ts";
 type AlertProps = {
     message: string;
     error: boolean;
 }
 
-const Alert = ({message, error}:AlertProps) => {
+const Alert2 = ({message, error}:AlertProps) => {
      return (
         <div
                 className="alertbox"
@@ -14,6 +13,8 @@ const Alert = ({message, error}:AlertProps) => {
                   borderRadius: "8px",
                   padding: "12px 20px",
                   position: "relative",
+                  marginLeft: "30px",
+                  marginRight: "30px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
@@ -34,7 +35,7 @@ const Alert = ({message, error}:AlertProps) => {
                   {message.replace("✅ ", "").replace("❌ ", "")}
                 </span>
                 <button
-                  onClick={(e) =>{e.preventDefault();alertVisible.value=false; alertVisible2.value=false}}
+                  onClick={(e) =>{e.preventDefault();alertVisible2.value=false}}
                   type="button"
                   style={{
                     background: "transparent",
@@ -49,4 +50,4 @@ const Alert = ({message, error}:AlertProps) => {
               </div>
     )
 }
-export default Alert;
+export default Alert2;

@@ -38,9 +38,9 @@ const LoginPage=()=> {
   return (
     <div className={styles.container}>
       <div className={styles.glassBox}>
-        <h1 className={styles.title}>Login</h1>
-       {msg.visible && (
-        <AlertIsland message={msg.message} error={!msg.message.toLowerCase().includes("✅")}/>
+        <h1 className={styles.title}>Iniciar Sesion</h1>
+       {msg.visible && alertVisible.value && (
+        <AlertIsland type={1} message={msg.message} error={!msg.message.toLowerCase().includes("✅")}/>
     )}
         <form onSubmit={handleLogin} className={styles.form} action="javascript:void(0)">
           
@@ -58,7 +58,7 @@ const LoginPage=()=> {
           <div className={styles.inputGroup}>
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Contraseña"
               value={password}
               onInput={(e) => setPassword((e.target as HTMLInputElement).value)}
               className={styles.input}
@@ -73,18 +73,18 @@ const LoginPage=()=> {
                 checked={rememberMe}
                 onChange={(e) => setRememberMe((e.target as HTMLInputElement).checked)}
               />
-              Remember me
+              Recuerdame
             </label>
-            <a href="#" className={styles.link}>Forgot password?</a>
+            <a href="#" className={styles.link}>Olvido su contraseña?</a>
           </div>
 
           <button type="submit" className={styles.button}>
-            Login
+            Iniciar Sesion
           </button>
         </form>
 
         <p className={styles.register}>
-          Don't have an account? <a href="/register" className={styles.registerLink}>Register</a>
+          No tienes una cuenta? <a href="/register" className={styles.registerLink}>Registro</a>
         </p>
       </div>
     </div>
