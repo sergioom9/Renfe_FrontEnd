@@ -43,7 +43,7 @@ const RegisterPage = ()=> {
       if (verifyRes.ok) {
               const verified = await verifyRes.json();
               if (verified.success == "OK") {
-                document.cookie = `bearer=${encodeURIComponent(verified.sessionToken)}; path=/; max-age=${3600}`;
+                document.cookie = `bearer=${encodeURIComponent(verified.bearer)}; path=/; max-age=${3600}`;
                 globalThis.location.href = "/profile";
               } else {
                 setMsg({ message: "❌ Invalid Token", visible: true });

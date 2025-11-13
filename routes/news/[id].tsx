@@ -1,9 +1,9 @@
-import TicketIDIsland from "../../islands/IndividualTicket.tsx";
+import IndividualNewIsland from "../../islands/IndividualNewIsland.tsx";
 
 export default function TicketPage() {
   return (
-    <div class="ticket-page">
-      <TicketIDIsland />
+    <div class="new-page">
+      <IndividualNewIsland />
     </div>
   );
 }

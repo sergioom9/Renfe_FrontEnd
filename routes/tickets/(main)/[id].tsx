@@ -1,4 +1,4 @@
-import TicketIDIsland from "../../islands/IndividualTicket.tsx";
+import TicketIDIsland from "../../../islands/IndividualTicket.tsx";
 
 export default function TicketPage() {
   return (

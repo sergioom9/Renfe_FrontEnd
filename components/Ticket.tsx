@@ -26,7 +26,6 @@ const TicketCard = ({ item }: TicketProp) => {
     <div
       key={item.ticketid}
       className={`${styles.liquidglass2} ${item.vendido ? styles.sold : ""}`}
-      onClick={handleClick}
       style={{
         cursor: item.vendido ? "not-allowed" : "pointer",
         pointerEvents: item.vendido ? "none" : "auto",
@@ -69,6 +68,7 @@ const TicketCard = ({ item }: TicketProp) => {
         <p style="color: #44eb44;" className={styles.sectionText}>
           💰 {item.price} $
         </p>
+        <button onClick={handleClick}>Comprar</button>
       </div>
     </div>
   );

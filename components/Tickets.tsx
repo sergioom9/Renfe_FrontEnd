@@ -415,7 +415,7 @@ const TicketPage = () => {
 
       {filteredTickets.length > 0
         ? (
-          filteredTickets.map((item: Ticket) => (
+          filteredTickets.sort((a, b) => Number(a.vendido) - Number(b.vendido)).map((item: Ticket) => (
             <TicketCard key={item.ticketid} item={item} />
           ))
         )

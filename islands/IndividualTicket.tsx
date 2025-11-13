@@ -1,5 +1,5 @@
 import IndividualTicket from "../components/IndiviudalTicket.tsx";
 
-export default function LoginIsland() {
+export default function IndividualTicketIsland() {
     return <IndividualTicket />;
 }

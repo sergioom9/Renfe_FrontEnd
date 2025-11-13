@@ -1,5 +1,3 @@
-import styles from '../assets/News.module.css';
-
 const Loading = () => {
     return(
         <>

@@ -30,7 +30,7 @@ export default function IndividualTicket() {
           return;
         }
 
-        const res = await fetch("/api/tickets", {
+        const res = await fetch("/api/buy", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ticketid: id }),
