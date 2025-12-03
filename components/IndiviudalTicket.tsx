@@ -2,6 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import Loading from "../components/Loading.tsx";
 import styles from "../assets/IndividualTicket.module.css";
 import BuyButton from "./BuyTicketButton.tsx";
+import { get } from "node:http";
 
 type Ticket = {
   ticketid: string;
@@ -15,7 +16,7 @@ type Ticket = {
 export default function IndividualTicket() {
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
+   useEffect(() => {
     let cancelled = false;
     setLoading(true);
 
@@ -28,17 +29,7 @@ export default function IndividualTicket() {
           return;
         }
 
-        /*const res = await fetch("/api/buy", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ticketid: id }),
-        });
-
-        if (!res.ok) {
-          globalThis.location.replace("/tickets");
-          return;
-        }*/
-       const ticketid = atob(datatic);
+        const ticketid = atob(datatic);
         const res = await fetch(`/api/ticket/${ticketid}`);
         if (!res.ok) {
           globalThis.location.replace("/tickets");
