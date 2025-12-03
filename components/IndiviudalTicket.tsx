@@ -5,13 +5,11 @@ import BuyButton from "./BuyTicketButton.tsx";
 
 type Ticket = {
   ticketid: string;
-  userid?: string;
   origin: string;
   destination: string;
   date: string;
   price: string;
-  coinsGained?: string;
-  vendido?: boolean;
+  available: number;
 };
 
 export default function IndividualTicket() {
@@ -24,13 +22,13 @@ export default function IndividualTicket() {
     const load = async () => {
       try {
         const path = globalThis.location?.pathname ?? "";
-        const id = path.split("/").pop() ?? null;
-        if (!id) {
+        const datatic = path.split("/").pop() ?? null;
+        if (!datatic) {
           globalThis.location.replace("/tickets");
           return;
         }
 
-        const res = await fetch("/api/buy", {
+        /*const res = await fetch("/api/buy", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ticketid: id }),
@@ -39,20 +37,22 @@ export default function IndividualTicket() {
         if (!res.ok) {
           globalThis.location.replace("/tickets");
           return;
+        }*/
+       const ticketid = atob(datatic);
+        const res = await fetch(`/api/ticket/${ticketid}`);
+        if (!res.ok) {
+          globalThis.location.replace("/tickets");
+          return;
         }
-
         const data = await res.json();
         const ticket: Ticket = {
           ticketid: data.ticketid,
-          userid: data.userid,
           origin: data.origin,
           destination: data.destination,
           date: data.date,
           price: data.price,
-          coinsGained: data.coinsGained,
-          vendido: data.vendido,
+          available: data.available,
         };
-
         if (!cancelled) setTicket(ticket);
       } catch (err) {
         console.error(err);
@@ -92,18 +92,18 @@ export default function IndividualTicket() {
         <div
           key={ticket.ticketid}
           className={`${styles.liquidglass2} ${
-            ticket.vendido ? styles.sold : ""
+            ticket.available<1 ? styles.sold : ""
           }`}
           style={{
-            cursor: ticket.vendido ? "not-allowed" : "pointer",
-            pointerEvents: ticket.vendido ? "none" : "auto",
-            opacity: ticket.vendido ? 0.5 : 1,
+            cursor: ticket.available<1 ? "not-allowed" : "pointer",
+            pointerEvents: ticket.available<1 ? "none" : "auto",
+            opacity: ticket.available<1 ? 0.5 : 1,
             transition: "all 0.3s ease-in-out",
             position: "relative",
             overflow: "hidden",
           }}
         >
-          {ticket.vendido && (
+          {ticket.available<1 && (
             <div
               style={{
                 position: "absolute",
@@ -120,14 +120,14 @@ export default function IndividualTicket() {
                 letterSpacing: "1px",
               }}
             >
-              VENDIDO
+              LLENO
             </div>
           )}
 
           <div
             style={{
-              opacity: ticket.vendido ? 0.5 : 1,
-              filter: ticket.vendido ? "blur(1px)" : "none",
+              opacity: ticket.available<1 ? 0.5 : 1,
+              filter: ticket.available<1 ? "blur(1px)" : "none",
               transition: "all 0.3s ease-in-out",
             }}
           >
@@ -140,7 +140,10 @@ export default function IndividualTicket() {
             <p style="color: #44eb44;" className={styles.sectionText}>
               💰 {ticket.price} $
             </p>
-            <BuyButton />
+            <p style="color: #44eb44;" className={styles.sectionText}>
+              Disponibles : {ticket.available} 
+            </p>
+            <BuyButton availableTickets={ticket.available}/>
           </div>
         </div>
       </div>

@@ -223,6 +223,31 @@ app.get("/api/tickets", async () => {
   }
 });
 
+app.get("/api/ticket/:ticketid", async (ctx) => {
+  try {
+    const ticketid = ctx.params.ticketid;
+    const apiResponse = await fetch(
+      `https://backend-renfe.sergioom9.deno.net/ticket/${ticketid}`,
+    );
+    if (!apiResponse.ok) {
+      return new Response(
+        JSON.stringify({ error: apiResponse.statusText }),
+        { status: 401, headers: { "Content-Type": "application/json" } },
+      );
+    }
+    const result = await apiResponse.json();
+    return new Response(
+      JSON.stringify(result),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ error: `Error interno` }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  }
+});
+
 app.post("/api/tickets", async (ctx) => {
   try {
     const data = await ctx.req.json();
@@ -317,7 +342,7 @@ app.post("/api/buy", async (ctx) => {
         { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
-    const { ticketid } = data;
+    const { ticketid,quantity } = data;
     const apiResponse = await fetch(
       "https://backend-renfe.sergioom9.deno.net/token/user",
       {
@@ -344,7 +369,7 @@ app.post("/api/buy", async (ctx) => {
           "Content-Type": "application/json",
           "Cookie":`bearer=${token}`
         },
-        body: JSON.stringify({ ticketid, userid }),
+        body: JSON.stringify({ ticketid, userid, quantity }),
       },
     );
     if (!apires2.ok) {
@@ -358,7 +383,7 @@ app.post("/api/buy", async (ctx) => {
       JSON.stringify(resjson2),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
-  } catch (error) {
+  } catch (_error) {
     return new Response(
       JSON.stringify({ error: `Error interno` }),
       { status: 500, headers: { "Content-Type": "application/json" } },

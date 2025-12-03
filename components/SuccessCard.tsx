@@ -4,17 +4,16 @@ import styles from "../assets/SuccessCard.module.css";
 
 type Ticket = {
   ticketid: string;
-  userid?: string;
   origin: string;
   destination: string;
   date: string;
   price: string;
-  coinsGained?: string;
-  vendido?: boolean;
+  available: number;
 };
 
 export default function SuccesCard() {
   const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [quantity, setQuantity] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     let cancelled = false;
@@ -28,13 +27,11 @@ export default function SuccesCard() {
           globalThis.location.replace("/tickets");
           return;
         }
-
-        const res = await fetch("/api/ticket", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ticketid: id }),
-        });
-
+        const bdata = atob(id);
+        const finaldata = bdata.split("+");
+        const ticketid = finaldata[0];
+        const  quantity = finaldata[1];
+        const res = await fetch(`/api/ticket/${ticketid}`);
         if (!res.ok) {
           globalThis.location.replace("/tickets");
           return;
@@ -43,16 +40,14 @@ export default function SuccesCard() {
         const data = await res.json();
         const ticket: Ticket = {
           ticketid: data.ticketid,
-          userid: data.userid,
           origin: data.origin,
           destination: data.destination,
           date: data.date,
           price: data.price,
-          coinsGained: data.coinsGained,
-          vendido: data.vendido,
+          available: data.available,
         };
 
-        if (!cancelled) setTicket(ticket);
+        if (!cancelled) setTicket(ticket);setQuantity(parseInt(quantity));
       } catch (err) {
         console.error(err);
         if (!cancelled) globalThis.location.replace("/tickets");
@@ -126,10 +121,11 @@ export default function SuccesCard() {
         >
           <p className={styles.sectionText}>🆔 <b>ID:</b> {ticket.ticketid}</p>
           <p className={styles.sectionText}>📅 <b>Fecha:</b> {ticket.date}</p>
-          <p className={styles.sectionText}>💰 <b>Precio:</b> {ticket.price} $</p>
+          <p className={styles.sectionText}>💰 <b>Precio:</b> {parseFloat(ticket.price) * quantity} $</p>
+          <p className={styles.sectionText}>💰 <b>Cantidad:</b> {quantity} </p>
           {ticket.price && (
             <p className={styles.sectionText}>
-              🪙 <b>Monedas ganadas:</b> {parseFloat(ticket.price) /10 }
+              🪙 <b>Monedas ganadas:</b> {parseFloat(ticket.price) /10 * quantity }
             </p>
           )}
         </div>

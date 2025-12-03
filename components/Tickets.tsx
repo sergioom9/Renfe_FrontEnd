@@ -5,14 +5,13 @@ import { useEffect, useState } from "preact/hooks";
 
 type Ticket = {
   ticketid: string;
-  userid?: string;
   origin: string;
   destination: string;
   date: string;
   price: string;
-  coinsGained?: string;
-  vendido?: boolean;
+  available: number;
 };
+
 
 const TicketPage = () => {
   const [ticket, setTicket] = useState<Ticket[]>([]);
@@ -26,57 +25,50 @@ const TicketPage = () => {
   const [absoluteMaxPrice, setAbsoluteMaxPrice] = useState(1000);
 
   async function fetchTickets() {
-    const res = await fetch("/api/tickets");
-    if (res.ok) {
-      const data = await res.json();
-      const formattedTickets = data.map((item: Ticket) => ({
-        ticketid: item.ticketid,
-        origin: item.origin,
-        destination: item.destination,
-        date: item.date,
-        price: item.price,
-        vendido: item.vendido,
-      }));
-      setTicket(formattedTickets);
-
-      const prices = formattedTickets.map((t: Ticket) => parseFloat(t.price));
+  const res = await fetch("/api/tickets");
+  if (res.ok) {
+    const data = await res.json();
+    setTicket(data);
+    const prices = data.map((t: Ticket) => parseFloat(t.price));
+    if (prices.length > 0) {
       const max = Math.max(...prices);
       setAbsoluteMaxPrice(Math.ceil(max));
       setMaxPrice(Math.ceil(max));
-
-      setLoading(false);
-    } else {
-      setTicket([]);
-      setLoading(false);
     }
+    setLoading(false);
+  } else {
+    setTicket([]);
+    setLoading(false);
   }
-
+}
   useEffect(() => {
     fetchTickets();
   }, []);
 
-  const filteredTickets = ticket.filter((item) => {
-    const matchOrigin = filterOrigin === "" ||
-      item.origin.toLowerCase().includes(filterOrigin.toLowerCase());
-
-    const matchDestination = filterDestination === "" ||
-      item.destination.toLowerCase().includes(filterDestination.toLowerCase());
-
-    const matchDate = filterDate === "" || item.date === filterDate;
-
-    const price = parseFloat(item.price);
-    const matchPrice = price >= minPrice && price <= maxPrice;
-
-    return matchOrigin && matchDestination && matchDate && matchPrice;
-  });
-
-  const resetFilters = () => {
+    const resetFilters = () => {
     setFilterOrigin("");
     setFilterDestination("");
     setFilterDate("");
     setMinPrice(0);
     setMaxPrice(absoluteMaxPrice);
   };
+  const filteredTickets = ticket.filter((item) => {
+    const price = parseFloat(item.price);
+    if (filterOrigin && !item.origin.toLowerCase().includes(filterOrigin.toLowerCase())) {
+      return false;
+    }
+    if (filterDestination && !item.destination.toLowerCase().includes(filterDestination.toLowerCase())) {
+      return false;
+    }
+    if (filterDate && item.date !== filterDate) {
+      return false;
+    }
+    if (price < minPrice || price > maxPrice) {
+      return false;
+    }
+    
+    return true;
+  });
 
   if (loading) {
     return <Loading />;
@@ -413,11 +405,14 @@ const TicketPage = () => {
         </button>
       </div>
 
-      {filteredTickets.length > 0
-        ? (
-          filteredTickets.sort((a, b) => Number(a.vendido) - Number(b.vendido)).map((item: Ticket) => (
-            <TicketCard key={item.ticketid} item={item} />
-          ))
+      {filteredTickets.length > 0  ?
+        (
+          filteredTickets
+          .sort((a, b) => b.available - a.available)
+            .map((item) => (
+              <TicketCard item={item}
+              />
+            ))
         )
         : (
           <div

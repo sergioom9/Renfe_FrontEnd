@@ -6,7 +6,7 @@ export default function IndexButton() {
 
   return (
     <button onClick={handleClick} className="buybutton">
-      🎟️ Buy
+      🎟️ Comprar
     </button>
   );
 }

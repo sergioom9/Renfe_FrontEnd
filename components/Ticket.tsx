@@ -2,40 +2,37 @@ import styles from "../assets/Ticket.module.css";
 
 type Ticket = {
     ticketid:string,
-    userid?:string,
     origin:string,  
     destination:string,
     date:string,
     price:string,
-    coinsGained?:string,
-    vendido?:boolean
+    available:number,
 };
 
-type TicketProp = {
-  item: Ticket;
+type TicketCardProps = {
+    item: Ticket;
 };
 
-const TicketCard = ({ item }: TicketProp) => {
+const TicketCard = ({ item }: TicketCardProps) => {
   const handleClick = () => {
-    if(item.vendido != true){
-      globalThis.location.href = `/tickets/${item.ticketid}`;
+    if(item.available>0){
+      globalThis.location.href = `/tickets/${btoa(item.ticketid)}`;
     }
   }
   
   return (
     <div
-      key={item.ticketid}
-      className={`${styles.liquidglass2} ${item.vendido ? styles.sold : ""}`}
+      className={`${styles.liquidglass2} ${item.available<1 ? styles.sold : ""}`}
       style={{
-        cursor: item.vendido ? "not-allowed" : "pointer",
-        pointerEvents: item.vendido ? "none" : "auto",
-        opacity: item.vendido ? 0.5 : 1,
+        cursor: item.available<1 ? "not-allowed" : "pointer",
+        pointerEvents: item.available<1 ? "none" : "auto",
+        opacity: item.available<1 ? 0.5 : 1,
         transition: "all 0.3s ease-in-out",
         position: "relative",
         overflow: "hidden", 
       }}
     >
-      {item.vendido && (
+      {item.available<1 && (
         <div style={{
           position: "absolute",
           top: "30px",
@@ -50,13 +47,13 @@ const TicketCard = ({ item }: TicketProp) => {
           zIndex: 10,
           letterSpacing: "1px",
         }}>
-          VENDIDO
+          LLENO
         </div>
       )}
       
       <div style={{ 
-        opacity: item.vendido ? 0.5 : 1,
-        filter: item.vendido ? "blur(1px)" : "none",
+        opacity: item.available<1 ? 0.5 : 1,
+        filter: item.available<1 ? "blur(1px)" : "none",
         transition: "all 0.3s ease-in-out",
       }}>
         <h2 className={styles.sectionTitle}>
@@ -67,6 +64,9 @@ const TicketCard = ({ item }: TicketProp) => {
         </p>
         <p style="color: #44eb44;" className={styles.sectionText}>
           💰 {item.price} $
+        </p>
+        <p style="color: #44eb44;" className={styles.sectionText}>
+          Disponibles : {item.available} 
         </p>
         <button onClick={handleClick}>Comprar</button>
       </div>
