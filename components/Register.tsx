@@ -34,7 +34,7 @@ const RegisterPage = () => {
   function getEmailErrors(password: string): string {
     if (password.length === 0) return "";
     const errors = [];
-    if (!email.includes("@") && !email.includes("@")) errors.push("Email invalido");
+    if (!email.includes("@") && !email.includes(".")) errors.push("Email invalido");
     if (errors.length === 0) return "";
     return `❌ ${errors.join(", ")}`;
   }

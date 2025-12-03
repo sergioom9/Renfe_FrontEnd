@@ -326,6 +326,9 @@ img,video {
     background: #fff3;
     border: 1px solid rgba(255,255,255,.3);
     border-radius: 20px;
+    display: flex;            
+  align-items: center;       
+  justify-content: center;
     color: #fff;
     padding: .75rem 2rem;
     font-weight: 500;
@@ -335,6 +338,11 @@ img,video {
     backdrop-filter: blur(10px);
     font-size: .95rem;
     flex:1;
+}
+
+.headerbutton img.logo {
+  height: 24px;             
+  width: auto;    
 }
 
 .headerbutton:hover {

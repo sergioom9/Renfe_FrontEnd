@@ -125,7 +125,7 @@ export default function SuccesCard() {
           <p className={styles.sectionText}>💰 <b>Cantidad:</b> {quantity} </p>
           {ticket.price && (
             <p className={styles.sectionText}>
-              🪙 <b>Monedas ganadas:</b> {parseFloat(ticket.price) /10 * quantity }
+              🪙 <b>Monedas ganadas:</b> {Math.round(parseFloat(ticket.price) /10 * quantity)}
             </p>
           )}
         </div>
