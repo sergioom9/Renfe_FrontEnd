@@ -129,7 +129,7 @@ export default function IndividualTicket() {
               📅 {ticket.date}
             </p>
             <p style="color: #44eb44;" className={styles.sectionText}>
-              💰 {ticket.price} $
+              💰 {ticket.price} €
             </p>
             <p style="color: #44eb44;" className={styles.sectionText}>
               Disponibles : {ticket.available} 
