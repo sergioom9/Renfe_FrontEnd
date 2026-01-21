@@ -63,7 +63,7 @@ const TicketCard = ({ item }: TicketCardProps) => {
           📅 {item.date}
         </p>
         <p style="color: #44eb44;" className={styles.sectionText}>
-          💰 {item.price} $
+          💰 {item.price} €
         </p>
         <p style="color: #44eb44;" className={styles.sectionText}>
           Disponibles : {item.available} 
